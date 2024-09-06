@@ -1,2 +1,2 @@
 # SecurityApplication
- Spring Boot Application with Spring feature
+ Spring Boot Application with Security feature
