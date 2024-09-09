@@ -1,0 +1,6 @@
+UserDetails
+It is an interface that contains all the user related information.
+authorities-> these are basically the roles that this user can assume.
+
+we'll never store password as a simple string inside our database,
+Therefore we use those password encoders to hash/encode and match those passwords.
