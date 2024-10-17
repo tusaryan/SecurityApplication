@@ -1,6 +1,52 @@
+L5.3
 UserDetails
 It is an interface that contains all the user related information.
 authorities-> these are basically the roles that this user can assume.
 
 we'll never store password as a simple string inside our database,
 Therefore we use those password encoders to hash/encode and match those passwords.
+
+
+L5.4
+Note upto 00:22
+
+SecurityFilterChain : we can customise its default behaviour. We, too, can add custom filter / remove some filers or add routes
+@EnableWebSecurity -> to enable and configure Spring SecurityFilterChain
+to configure HttpSecurity
+exceptionHandling -> if we want to handle exception in other way
+
+.cors -> cross origin resource sharing, here we can define which type of domain can bypass the "cors" security.
+for example if we have front-end and backend on different ports/web server
+then we cannot share resources between these two(that's how web is configured). One website can only take resources from those that are either public or either in service "cors" policy.
+Any backend can specify which frontend can use my resource.
+
+.formLogin -> to define how form login should work.
+
+why we don't need csrf in jwt 05:40.
+
+using just this will not ask for authentication/authorization ".formLogin(Customizer.withDefaults())" i.e. login id and password to access data/posts,
+we have to configure it using ".authorizeHttpRequests()"
+
+How to Read Notes in Code:
+1.  ** -> means do not bother about any content inside it. feeling pe jao words pe nahi. (*ABCXYZ*)
+2.  the lower is the code after it was in lectures (mostly)
+3.  // comment at start of any line or /**/ comment -> indicate earlier part of code but later replaced by other code
+4.  // comment in between anywhere means never part of original code just an explanation or alternative that could be used.
+
+comment @Service inside "UserService" to use inMemoryUserDetailManager i.e. user data which is specified in application.properties to login
+
+State-ful session : when we maintain JSESSIONID-id, csrf token, etc.
+State-less session
+
+.requestMatchers("/posts/**").permitAll() -> to whitelist all route that comes under /posts/ eg: /posts/1 or /posts
+
+.requestMatchers("/posts/**").hasAnyRole("ADMIN") -> use .hasAnyRole to pass String array of roles
+.requestMatchers("/posts/**").hasRole("ADMIN") -> use .hasRole to pass a single Role.
+
+Types of session
+ALWAYS : always create a session and use that session
+NEVER : create the session but will never use it
+IF_REQUIRED : not create a session but use the session if it's already there in browser.
+STATELESS : to go session less i.e. neither create a session nor use a session.
+
+in JWT, we will not use .formLogin() so ultimately not be using .csrf(), sessionManagement()

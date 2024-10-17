@@ -10,13 +10,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 //this is MyUserDetailServiceImpl
-@Service
+
+//commented the below @Service to use InMemoryUserDetails manager to save and authenticate user
+//@Service
 @RequiredArgsConstructor
 public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-    //Spring provider will use this method to get user details
+    //Spring provider will use this method to get user details from the repo
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username)
