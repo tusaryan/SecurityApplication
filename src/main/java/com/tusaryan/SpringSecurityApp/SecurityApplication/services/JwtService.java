@@ -66,6 +66,4 @@ public class JwtService {
         //return claims.getSubject());
         return Long.valueOf(claims.getSubject());
     }
-
-
 }

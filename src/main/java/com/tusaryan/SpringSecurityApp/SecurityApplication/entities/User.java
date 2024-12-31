@@ -8,12 +8,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
+//Earlier, L5.6, L5.7
+
 @Getter
 @Setter
 @Entity
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@ToString
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 //@Builder
 public class User implements UserDetails {
 
@@ -25,6 +27,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     private String password;
+    private String name;
 
     public User(Long id, String email, String password) {
         this.id = id;
@@ -44,6 +47,6 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.password;
+        return this.email;
     }
 }

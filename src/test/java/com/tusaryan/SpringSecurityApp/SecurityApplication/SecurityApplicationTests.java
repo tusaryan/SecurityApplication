@@ -17,7 +17,7 @@ class SecurityApplicationTests {
 	void contextLoads() {
 
 		//creating a dummy user
-		User user = new User(4L, "aryan@gmail.com", "1234");
+		User user = new User(4L, "aryan@gmail.com", "1234", "Tunisha Aryan");
 
 		//generate a token with the algorithm that it uses
 		String token = jwtService.generateToken(user);
