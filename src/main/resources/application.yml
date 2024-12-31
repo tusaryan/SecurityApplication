@@ -1,0 +1,17 @@
+#C1 W6.2
+get facebook and github client id and secret from the respective sites/developer account
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 997551501308-3i8fuuih07810khc5bru4qgn6lf9qahn.apps.googleusercontent.com
+            client-secret: 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
+          github:
+            client-id: 1b3b1b3b1b3b1b3b1b3b
+            client-secret: 1b3b
+          facebook:
+            client-id: 1b3b1b3b1b3b1b3b1b3b
+            client-secret: 1b3b
+

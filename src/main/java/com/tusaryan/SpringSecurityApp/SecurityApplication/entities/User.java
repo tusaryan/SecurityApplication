@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-//Earlier, L5.6, L5.7
+//Earlier, L5.6, L5.7, 6.2
 
 @Getter
 @Setter
@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//@Builder
+@Builder
 public class User implements UserDetails {
 
     @Id

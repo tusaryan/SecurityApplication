@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-//Earlier, L5.6
+//Earlier, L5.6, 6.2
 
 //this is MyUserDetailServiceImpl
 
@@ -48,6 +48,10 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with id: "+ userId + "not found"));
     }
 
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(null);
+    }
+
     //this method create a new user inside our DB
     public UserDto signUp(SignupDto signupDto) {
         //to check if the user is already present inside our DB
@@ -67,4 +71,7 @@ public class UserService implements UserDetailsService {
         return modelMapper.map(savedUser, UserDto.class);
     }
 
+    public User save(User newUser) {
+        return userRepository.save(newUser);
+    }
 }

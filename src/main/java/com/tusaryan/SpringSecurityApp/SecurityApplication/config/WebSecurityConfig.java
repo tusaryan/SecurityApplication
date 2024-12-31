@@ -1,6 +1,7 @@
 package com.tusaryan.SpringSecurityApp.SecurityApplication.config;
 
 import com.tusaryan.SpringSecurityApp.SecurityApplication.filters.JwtAuthFilter;
+import com.tusaryan.SpringSecurityApp.SecurityApplication.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +22,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//Earlier, L5.6, L5.7
+//Earlier, L5.6, L5.7, 6.2
 
 //Configuring SecurityFilterChain to customise default behaviour
 @Configuration
@@ -30,6 +31,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     //if we define web security like this than we have to define formLogin else it will not work.
     //since all the request have to go through the filter chain. So any incoming request will also have to pass through security filter chain
@@ -46,7 +48,7 @@ public class WebSecurityConfig {
 
                         //To whitelist some routes i.e. to make those routes public and anyone can go to those routes.
                         //Inside () pass the pattern of request. For eg: pass in http methods like all get request are public or pass the type of url.
-                        .requestMatchers("/posts", "/error", "/auth/**").permitAll()
+                        .requestMatchers("/posts", "/error", "/auth/**", "/home.html").permitAll()
 
                         //to authorize your role(here specifically admin) if you want to access /posts and any route inside it like find posts by id.
                         //Here only admins are allowed to go to these routes /posts/id
@@ -77,6 +79,10 @@ public class WebSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //this is how we add our custom filter inside Spring Security's default filter chain
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .oauth2Login(oauth2Config -> oauth2Config
+                        .failureUrl("/login?error=true")
+                        .successHandler(oAuth2SuccessHandler)
+                );
         //To remove session-id to go to stateless in production ready
 
                 //To define new route for login page

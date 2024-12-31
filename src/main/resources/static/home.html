@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google OAuth2 Login</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        .content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<h1>Google OAuth2 Login</h1>
+<div class="g-signin2" data-onsuccess="onSignIn"></div>
+
+<div class="content">
+    <h2>Login Successful!</h2>
+    <p id="user-info"></p>
+    <button onclick="signOut()">Sign Out</button>
+</div>
+
+<script>
+    function onSignIn(googleUser) {
+        // Get profile information
+        const profile = googleUser.getBasicProfile();
+        const userInfo = `Name: ${profile.getName()}<br>Email: ${profile.getEmail()}`;
+
+        // Display user information
+        document.querySelector('.content').style.display = 'block';
+        document.querySelector('#user-info').innerHTML = userInfo;
+        document.querySelector('.g-signin2').style.display = 'none';
+    }
+
+    function signOut() {
+        const auth2 = gapi.auth2.getAuthInstance();
+        auth2.signOut().then(() => {
+            document.querySelector('.content').style.display = 'none';
+            document.querySelector('.g-signin2').style.display = 'block';
+            alert('You have been signed out.');
+        });
+    }
+</script>
+</body>
+</html>
