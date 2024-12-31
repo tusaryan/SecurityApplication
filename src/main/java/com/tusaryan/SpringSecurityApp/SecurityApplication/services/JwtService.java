@@ -27,7 +27,7 @@ public class JwtService {
     }
 
     //make sure to import User from entities package
-    public String generateToken(User user) {
+    public String generateAccessToken(User user) {
         return Jwts.builder()
                 //since id is in long so converting it to string
                 .subject(user.getId().toString())
@@ -37,7 +37,22 @@ public class JwtService {
                 //assigning issue date to be current time
                 .issuedAt(new Date())
                 //setting expiration time to be 1 min after issue time
-                .expiration(new Date(System.currentTimeMillis() + 1000*60))
+                .expiration(new Date(System.currentTimeMillis() + 1000*60*10))
+                //sign it with the secret key
+                .signWith(getSecretKey())
+                //return the token
+                .compact();
+
+    }
+
+    public String generateRefreshToken(User user) {
+        return Jwts.builder()
+                //since id is in long so converting it to string
+                .subject(user.getId().toString())
+                //assigning issue date to be current time
+                .issuedAt(new Date())
+                //setting expiration time to be 1 min after issue time
+                .expiration(new Date(System.currentTimeMillis() + 1000L *60*60*24*30*6))
                 //sign it with the secret key
                 .signWith(getSecretKey())
                 //return the token
