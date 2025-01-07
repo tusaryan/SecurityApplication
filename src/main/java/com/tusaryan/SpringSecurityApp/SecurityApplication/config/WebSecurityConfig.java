@@ -79,6 +79,8 @@ public class WebSecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 //this is how we add our custom filter inside Spring Security's default filter chain
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+
+                //to add oauth2 login support
                 .oauth2Login(oauth2Config -> oauth2Config
                         .failureUrl("/login?error=true")
                         .successHandler(oAuth2SuccessHandler)

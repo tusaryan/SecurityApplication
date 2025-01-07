@@ -3,50 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Google OAuth2 Login</title>
-    <script src="https://apis.google.com/js/platform.js" async defer></script>
-    <meta name="google-signin-client_id" content="YOUR_CLIENT_ID.apps.googleusercontent.com">
+    <title>Home Page</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
         }
-        .content {
-            display: none;
+        header {
+            background-color: #091736;
+            color: white;
+            padding: 1rem 0;
+            text-align: center;
+        }
+        main {
+            padding: 2rem;
+            text-align: center;
+        }
+        .welcome {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .status {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 1rem 0;
+            background-color: #091736;
+            color: white;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
         }
     </style>
 </head>
 <body>
-<h1>Google OAuth2 Login</h1>
-<div class="g-signin2" data-onsuccess="onSignIn"></div>
-
-<div class="content">
-    <h2>Login Successful!</h2>
-    <p id="user-info"></p>
-    <button onclick="signOut()">Sign Out</button>
-</div>
-
-<script>
-    function onSignIn(googleUser) {
-        // Get profile information
-        const profile = googleUser.getBasicProfile();
-        const userInfo = `Name: ${profile.getName()}<br>Email: ${profile.getEmail()}`;
-
-        // Display user information
-        document.querySelector('.content').style.display = 'block';
-        document.querySelector('#user-info').innerHTML = userInfo;
-        document.querySelector('.g-signin2').style.display = 'none';
-    }
-
-    function signOut() {
-        const auth2 = gapi.auth2.getAuthInstance();
-        auth2.signOut().then(() => {
-            document.querySelector('.content').style.display = 'none';
-            document.querySelector('.g-signin2').style.display = 'block';
-            alert('You have been signed out.');
-        });
-    }
-</script>
+<header>
+    <h1>Welcome to Your Dashboard</h1>
+</header>
+<main>
+    <p class="welcome">Hello! We're glad to see you here.</p>
+    <p class="status">You have successfully logged in using Google OAuth2.</p>
+    <p>Feel free to explore the features and resources available on your dashboard.</p>
+    <button onclick="alert('Explore more!')">Explore</button>
+</main>
+<footer>
+    <p>&copy; 2025 TuSAryan. All rights reserved.</p>
+</footer>
 </body>
 </html>

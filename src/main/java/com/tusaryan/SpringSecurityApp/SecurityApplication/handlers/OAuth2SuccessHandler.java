@@ -41,15 +41,20 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
 
 //        log.info(oAuth2User.getAttribute("email"));
+        //using the email/info we get from google oauth server we verify if it is an existing or new user
+        //if new user then create
         String email = oAuth2User.getAttribute("email");
 
+        //to check if user already exists with this email
         User user = userService.getUserByEmail(email);
 
         if (user == null) {
+            //if user is not present then create a new user
             User newUser = User.builder()
                     .name(oAuth2User.getAttribute("name"))
                     .email(email)
                     .build();
+            //save the new user
             user = userService.save(newUser);
         }
 
@@ -62,11 +67,12 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(cookie);
 
         //we can put it inside the application.properties file
+        //this is how we are passing the acess token back to the client
         String frontEndUrl = "http://localhost:8080/home.html?token=" + accessToken;
 
-        //redirect request from the server to a particular url
+        //redirect request from the server/backend to a particular url
 //        getRedirectStrategy().sendRedirect(request, response, frontEndUrl);
-
+        //Alternate way to redirect
         response.sendRedirect(frontEndUrl);
     }
 }

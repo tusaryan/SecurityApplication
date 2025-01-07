@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Set;
 
+//Earlier, W6.1
+
 //to use this service and check how it is passing the user and getting data back from token, we'll create test cases inside SecurityApplicationTests class.
 @Service
 public class JwtService {
@@ -49,6 +51,9 @@ public class JwtService {
         return Jwts.builder()
                 //since id is in long so converting it to string
                 .subject(user.getId().toString())
+
+                //since we are not using refresh token for access, so we removed email and roles from here
+
                 //assigning issue date to be current time
                 .issuedAt(new Date())
                 //setting expiration time to be 1 min after issue time

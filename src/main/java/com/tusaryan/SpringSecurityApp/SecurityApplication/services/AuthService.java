@@ -35,6 +35,7 @@ public class AuthService {
         Long userId = jwtService.getUserIdFromToken(refreshToken);
         User user = userService.getUserById(userId);
 
+        //to generate new access token
         String accessToken = jwtService.generateAccessToken(user);
         return new LoginResponseDto(user.getId(), accessToken, refreshToken);
     }

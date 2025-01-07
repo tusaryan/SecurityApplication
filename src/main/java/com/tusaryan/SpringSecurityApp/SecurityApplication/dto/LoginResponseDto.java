@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 //L6.1
+
+//used to return both the tokens and user id
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

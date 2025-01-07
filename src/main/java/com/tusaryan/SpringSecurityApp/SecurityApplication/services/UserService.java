@@ -49,7 +49,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(null);
+        return userRepository.findByEmail(email).orElse(null);
     }
 
     //this method create a new user inside our DB

@@ -31,6 +31,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
     //@Autowired since we cannot use the constructor injection as this bean was created twice so it throws error.
     @Autowired
+    //currently we are working on security filter chain context,
+    //with the help of handlerException we can send the exception as response to the dispatcher servlet
     @Qualifier("handlerExceptionResolver")
     private final HandlerExceptionResolver handlerExceptionResolver;
 
@@ -63,7 +65,11 @@ public class JwtAuthFilter extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
             filterChain.doFilter(request, response);
-        } catch (Exception ex) {
+        }
+        //if we are not able to get the token correctly(from String token),
+        // then we need to send the exception to the dispatcher servlet
+        catch (Exception ex) {
+            //(request, response, null, ex) -> null is the handler, ex is the exception
             handlerExceptionResolver.resolveException(request, response, null, ex);
         }
     }

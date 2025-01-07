@@ -1,5 +1,5 @@
 #C1 W6.2
-get facebook and github client id and secret from the respective sites/developer account
+#get facebook and github client id and secret from the respective sites/developer account
 spring:
   security:
     oauth2:
