@@ -19,7 +19,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 
 import java.io.IOException;
 
-//L5.7, 5.8
+//W5.7, 5.8, 6.4
 
 @Component
 @RequiredArgsConstructor
@@ -58,7 +58,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 User user = userService.getUserById(userId);
                 UsernamePasswordAuthenticationToken authenticationToken =
-                        new UsernamePasswordAuthenticationToken(user, null, null);
+                        //This is JwtAuth filter, here we are authenticating user, putting its credentials and passing the user authorities, inside the Security Context holder.
+                        //Earlier just for demonstration purpose, we were passing null as authorities, but now we are passing the user.getAuthorities() to get the Role/Authority of user
+//                        new UsernamePasswordAuthenticationToken(user, null, null);
+                        new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
                 authenticationToken.setDetails(
                         new WebAuthenticationDetailsSource().buildDetails(request)
                 );

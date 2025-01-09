@@ -39,8 +39,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO getPostById(Long postId) {
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        log.info("user {}", user);
+        //these two lines are used to get the user details from the token/ user even if user is not present inside the context holder,
+        // so this is giving me exception when I am exposing the get post by id api to permit all, so I have to comment these two line,
+        //and therefore we're not able getting anything when we hit get request by post id.
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        log.info("user {}", user);
+
+
         PostEntity postEntity = postRepository
                 .findById(postId)
                 .orElseThrow(() -> new ResourceNotFoundException("Post not found with id : " + postId));

@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.Set;
 
-//Earlier, W6.1
+//Earlier, W6.1, W6.4
 
 //to use this service and check how it is passing the user and getting data back from token, we'll create test cases inside SecurityApplicationTests class.
 @Service
@@ -35,7 +35,9 @@ public class JwtService {
                 .subject(user.getId().toString())
                 .claim("email", user.getEmail())
                 //hard coding the role for now that each user generated will have role of ADMIN and USER. Later we'll change this behaviour
-                .claim("roles", Set.of("ADMIN", "USER"))
+//                .claim("roles", Set.of("ADMIN", "USER"))
+                //now to store the roles we all get it from the "user"
+                .claim("roles", user.getRoles().toString())
                 //assigning issue date to be current time
                 .issuedAt(new Date())
                 //setting expiration time to be 1 min after issue time

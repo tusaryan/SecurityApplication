@@ -1,10 +1,12 @@
 package com.tusaryan.SpringSecurityApp.SecurityApplication.config;
 
+import com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role;
 import com.tusaryan.SpringSecurityApp.SecurityApplication.filters.JwtAuthFilter;
 import com.tusaryan.SpringSecurityApp.SecurityApplication.handlers.OAuth2SuccessHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
@@ -22,7 +24,10 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-//Earlier, L5.6, L5.7, 6.2
+import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role.ADMIN;
+import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role.CREATOR;
+
+//Earlier, W5.6, W5.7, W6.2, W6.4
 
 //Configuring SecurityFilterChain to customise default behaviour
 @Configuration
@@ -32,6 +37,10 @@ public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
     private final OAuth2SuccessHandler oAuth2SuccessHandler;
+
+    private static final String[] publicRoutes = {
+            "/error", "/auth/**", "/home.html"
+    };
 
     //if we define web security like this than we have to define formLogin else it will not work.
     //since all the request have to go through the filter chain. So any incoming request will also have to pass through security filter chain
@@ -48,7 +57,15 @@ public class WebSecurityConfig {
 
                         //To whitelist some routes i.e. to make those routes public and anyone can go to those routes.
                         //Inside () pass the pattern of request. For eg: pass in http methods like all get request are public or pass the type of url.
-                        .requestMatchers("/posts", "/error", "/auth/**", "/home.html").permitAll()
+                        .requestMatchers(publicRoutes).permitAll()
+
+                        //static import of ADMIN from Role enum
+                        //to authorize your role(here specifically admin) if you want to access /posts and any route inside it like find posts by id.
+//                        .requestMatchers("/posts/**").hasRole(ADMIN.name())
+                        //we can also handle the GET, POST, PUT, DELETE and different types of http methods based upon user roles as well.
+                        .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/posts/**")
+                            .hasAnyRole(ADMIN.name(), CREATOR.name())
 
                         //to authorize your role(here specifically admin) if you want to access /posts and any route inside it like find posts by id.
                         //Here only admins are allowed to go to these routes /posts/id
