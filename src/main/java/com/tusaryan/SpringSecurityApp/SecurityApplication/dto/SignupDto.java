@@ -1,11 +1,12 @@
 package com.tusaryan.SpringSecurityApp.SecurityApplication.dto;
 
+import com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Permission;
 import com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role;
 import lombok.Data;
 
 import java.util.Set;
 
-//W5.5, W6.4
+//W5.5, 6.4, 6.5
 
 @Data
 public class SignupDto {
@@ -20,4 +21,6 @@ public class SignupDto {
     // like admins will only call the onBoardNewCreator api and there admin will be passing creator role for any user etc.
     //this is only for testing/demonstration purposes
     private Set<Role> roles;
+    //this is not a good way to attach permissions to a user, we should do it in the backend
+    private Set<Permission> permissions;
 }

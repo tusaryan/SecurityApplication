@@ -1,5 +1,6 @@
 package com.tusaryan.SpringSecurityApp.SecurityApplication.config;
 
+import com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Permission;
 import com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role;
 import com.tusaryan.SpringSecurityApp.SecurityApplication.filters.JwtAuthFilter;
 import com.tusaryan.SpringSecurityApp.SecurityApplication.handlers.OAuth2SuccessHandler;
@@ -24,10 +25,11 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Permission.*;
 import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role.ADMIN;
 import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role.CREATOR;
 
-//Earlier, W5.6, W5.7, W6.2, W6.4
+//Earlier, W5.6, 5.7, 6.2, 6.4, 6.5
 
 //Configuring SecurityFilterChain to customise default behaviour
 @Configuration
@@ -66,6 +68,12 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/posts/**")
                             .hasAnyRole(ADMIN.name(), CREATOR.name())
+
+                        //so instead passing the roles, we can also pass the permissions/authorities now
+                        .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyAuthority(POST_CREATE.name())
+                        .requestMatchers(HttpMethod.GET,"/posts/**").hasAuthority(POST_VIEW.name())
+                        .requestMatchers(HttpMethod.PUT,"/posts/**").hasAuthority(POST_UPDATE.name())
+                        .requestMatchers(HttpMethod.DELETE,"/posts/**").hasAuthority(POST_DELETE.name())
 
                         //to authorize your role(here specifically admin) if you want to access /posts and any route inside it like find posts by id.
                         //Here only admins are allowed to go to these routes /posts/id
