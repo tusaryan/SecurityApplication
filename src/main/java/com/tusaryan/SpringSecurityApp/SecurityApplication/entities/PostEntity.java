@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+//Earlier, W6.6
 @Entity
 @Table(name = "posts")
 @AllArgsConstructor
@@ -19,5 +21,9 @@ public class PostEntity{
     private Long id;
     private String title;
     private String description;
+
+    //one user can have many posts
+    @ManyToOne
+    private User author;
 
 }

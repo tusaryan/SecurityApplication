@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -29,12 +30,13 @@ import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.
 import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role.ADMIN;
 import static com.tusaryan.SpringSecurityApp.SecurityApplication.entities.enums.Role.CREATOR;
 
-//Earlier, W5.6, 5.7, 6.2, 6.4, 6.5
+//Earlier, W5.6, 5.7, 6.2, 6.4, 6.5, 6.6
 
 //Configuring SecurityFilterChain to customise default behaviour
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
+@EnableMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
 
     private final JwtAuthFilter jwtAuthFilter;
@@ -64,16 +66,22 @@ public class WebSecurityConfig {
                         //static import of ADMIN from Role enum
                         //to authorize your role(here specifically admin) if you want to access /posts and any route inside it like find posts by id.
 //                        .requestMatchers("/posts/**").hasRole(ADMIN.name())
+
                         //we can also handle the GET, POST, PUT, DELETE and different types of http methods based upon user roles as well.
-                        .requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
+                        /*.requestMatchers(HttpMethod.GET, "/posts/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/posts/**")
                             .hasAnyRole(ADMIN.name(), CREATOR.name())
 
                         //so instead passing the roles, we can also pass the permissions/authorities now
                         .requestMatchers(HttpMethod.POST,"/posts/**").hasAnyAuthority(POST_CREATE.name())
-                        .requestMatchers(HttpMethod.GET,"/posts/**").hasAuthority(POST_VIEW.name())
+//                        .requestMatchers(HttpMethod.GET,"/posts/**").hasAuthority(POST_VIEW.name())
                         .requestMatchers(HttpMethod.PUT,"/posts/**").hasAuthority(POST_UPDATE.name())
-                        .requestMatchers(HttpMethod.DELETE,"/posts/**").hasAuthority(POST_DELETE.name())
+                        .requestMatchers(HttpMethod.DELETE,"/posts/**").hasAuthority(POST_DELETE.name())*/
+
+                        //replacement of above
+                        //to avoid cluttering of requestMatchers in the code, use requestMatchers to make any endpoint secure and authenticated
+                        //and use Security methods inside api service/controller layers
+                        .requestMatchers("/posts/**").authenticated()
 
                         //to authorize your role(here specifically admin) if you want to access /posts and any route inside it like find posts by id.
                         //Here only admins are allowed to go to these routes /posts/id

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//Earlier, L5.7
+//Earlier, L5.7, 6.6
 @Slf4j
 @Service @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
@@ -33,7 +33,16 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO createNewPost(PostDTO inputPost) {
+
+        //get the current "user" from the security context holder which is inside the "Principal"
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         PostEntity postEntity = modelMapper.map(inputPost, PostEntity.class);
+
+        //to assign the current user creating the post
+        postEntity.setAuthor(user);
+
+        //to save the post
         return modelMapper.map(postRepository.save(postEntity), PostDTO.class);
     }
 
